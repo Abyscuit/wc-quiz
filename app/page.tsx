@@ -19,7 +19,11 @@ const paths = [
     title: 'Crypto Founder Quiz',
     desc: 'Which crypto founder are you?',
   },
-  { path: '/based', title: 'Based Quiz', desc: 'How based are you?' },
+  {
+    path: '/blockchain',
+    title: 'Blockchain Quiz',
+    desc: 'What blockchain are you?',
+  },
 ];
 
 export default function Home() {
