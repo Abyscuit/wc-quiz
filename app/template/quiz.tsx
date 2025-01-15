@@ -44,14 +44,6 @@ export function createIntro(title: string, bgImage?: string) {
   };
 }
 
-// function incrementQuestion(
-//   value: string,
-//   questionNum: number,
-//   storedAnswers: number[]
-// ) {
-//   if (value !== 'reset') storedAnswers.push(parseInt(value));
-// }
-
 export function createQuestionPage(
   buttonValue: string | undefined,
   questions: Questions,
