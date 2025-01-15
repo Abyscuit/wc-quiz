@@ -96,18 +96,25 @@ const results: Results = [
   },
 ];
 
+const storedAnswers: number[] = [];
+let questionNum = -1;
+
 app.frame('/', c => {
+  questionNum = -1;
   return c.res(createIntro(title));
 });
 
 app.frame('/questions', c => {
   const { buttonValue } = c;
-  return c.res(createQuestionPage(buttonValue, questions));
+  questionNum++;
+  return c.res(
+    createQuestionPage(buttonValue, questions, questionNum, storedAnswers)
+  );
 });
 
 app.frame('/result', c => {
   const { buttonValue } = c;
-  return c.res(createResultPage(buttonValue, results));
+  return c.res(createResultPage(buttonValue, results, storedAnswers));
 });
 
 devtools(app, { serveStatic });

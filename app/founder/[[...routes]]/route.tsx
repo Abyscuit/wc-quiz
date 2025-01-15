@@ -69,7 +69,7 @@ const founders = [
     desc: 'Not afraid to try new things!',
     enkryptDesc:
       'And he/you should have used a self custody wallet like Enkrypt!',
-    img: `/images/founders/Do-Kwan.png`,
+    img: `/images/founders/Do-Kwon.png`,
   },
   {
     name: 'CZ',
@@ -94,18 +94,25 @@ const founders = [
   },
 ];
 
+const storedAnswers: number[] = [];
+let questionNum = -1;
+
 app.frame('/', c => {
+  questionNum = -1;
   return c.res(createIntro(title, '/images/founder-background.png'));
 });
 
 app.frame('/questions', c => {
   const { buttonValue } = c;
-  return c.res(createQuestionPage(buttonValue, questions));
+  questionNum++;
+  return c.res(
+    createQuestionPage(buttonValue, questions, questionNum, storedAnswers)
+  );
 });
 
 app.frame('/result', c => {
   const { buttonValue } = c;
-  return c.res(createResultPage(buttonValue, founders));
+  return c.res(createResultPage(buttonValue, founders, storedAnswers));
 });
 
 devtools(app, { serveStatic });

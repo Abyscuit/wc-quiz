@@ -22,9 +22,6 @@ export function createApp(path: string, title: string) {
 const enkryptLink =
   'https://chrome.google.com/webstore/detail/enkrypt/kkpllkodjeloidieedojogacfhpaihoh';
 
-const storedAnswers: number[] = [];
-let questionNum = 0;
-
 export function createIntro(title: string, bgImage?: string) {
   return {
     image: (
@@ -47,14 +44,19 @@ export function createIntro(title: string, bgImage?: string) {
   };
 }
 
-function incrementQuestion(value: string) {
-  questionNum++;
-  if (value !== 'reset') storedAnswers.push(parseInt(value));
-}
+// function incrementQuestion(
+//   value: string,
+//   questionNum: number,
+//   storedAnswers: number[]
+// ) {
+//   if (value !== 'reset') storedAnswers.push(parseInt(value));
+// }
 
 export function createQuestionPage(
   buttonValue: string | undefined,
-  questions: Questions
+  questions: Questions,
+  questionNum: number,
+  storedAnswers: number[]
 ) {
   if (buttonValue === 'reset') {
     storedAnswers.splice(0, storedAnswers.length);
@@ -73,7 +75,9 @@ export function createQuestionPage(
           height={'100%'}
           style={bg}
         />
-        {incrementQuestion(buttonValue ?? '')}
+        {buttonValue && buttonValue !== 'reset'
+          ? storedAnswers.push(parseInt(buttonValue))
+          : ''}
         <div style={{ ...fontStyle, textShadow: '0px 0px' }}>
           {currentQuestion.question}
         </div>
@@ -94,12 +98,13 @@ export function createQuestionPage(
 
 export function createResultPage(
   buttonValue: string | undefined,
-  results: Results
+  results: Results,
+  storedAnswers: number[]
 ) {
   if (buttonValue && !isNaN(parseInt(buttonValue))) {
     storedAnswers.push(parseInt(buttonValue));
   }
-  const idx = calculateResult(results);
+  const idx = calculateResult(results, storedAnswers);
   const result = results[idx];
   return {
     image: (
@@ -135,7 +140,7 @@ export function createResultPage(
   };
 }
 
-function calculateResult(results: Results): number {
+function calculateResult(results: Results, storedAnswers: number[]): number {
   let sum = 0;
   for (const element of storedAnswers) {
     sum += element;
