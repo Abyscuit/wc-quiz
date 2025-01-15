@@ -1,0 +1,27 @@
+{
+  "name": "wc-quiz",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "deploy": "vercel",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "deploy-prod": "vercel --prod"
+  },
+  "dependencies": {
+    "frog": "latest",
+    "hono": "^4.6.13",
+    "next": "^14.1.1",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "typescript": "^5",
+    "vercel": "^32.3.0"
+  }
+}
