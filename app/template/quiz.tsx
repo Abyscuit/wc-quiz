@@ -25,13 +25,13 @@ const enkryptLink =
 const storedAnswers: number[] = [];
 let questionNum = 0;
 
-export function createIntro(title: string) {
+export function createIntro(title: string, bgImage?: string) {
   return {
     image: (
       <div style={container}>
         <img
           alt='background'
-          src='/background.png'
+          src={bgImage ?? '/background.png'}
           width={'100%'}
           height={'100%'}
           style={bg}
