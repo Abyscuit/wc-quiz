@@ -227,9 +227,11 @@ function getResultsByValues(
     let includeResult = false;
     let count = 0;
     for (const element of storedAnswers) {
-      includeResult = result.values?.includes(element) ?? false;
-      if (includeResult) count++;
-      if (count >= 4) break;
+      if (result.values?.includes(element) ?? false) count++;
+      if (count >= 4) {
+        includeResult = true;
+        break;
+      }
     }
     return includeResult;
   });
