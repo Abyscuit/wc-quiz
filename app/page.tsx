@@ -13,7 +13,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const paths = [
-  { path: '/api', title: 'Template Quiz', desc: 'Template for Quizzes' },
+  {
+    path: '/api',
+    title: 'Convention Quiz',
+    desc: 'What crypto convention should you go to in 2025?',
+  },
   {
     path: '/founder',
     title: 'Crypto Founder Quiz',
