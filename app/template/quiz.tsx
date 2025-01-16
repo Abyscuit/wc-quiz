@@ -1,7 +1,7 @@
 /** @jsxImportSource frog/jsx */
 
 import { Button, Frog } from 'frog';
-import { bg, container, fontStyle } from '@/app/styles/styles';
+import { bg, container, fontStyle, list } from '@/app/styles/styles';
 import { Roboto } from '@/app/styles/fonts';
 import { Questions, Results } from '.';
 
@@ -48,12 +48,13 @@ export function createQuestionPage(
   buttonValue: string | undefined,
   questions: Questions,
   questionNum: number,
-  storedAnswers: number[]
+  storedAnswers: string[]
 ) {
   if (buttonValue === 'reset') {
     storedAnswers.splice(0, storedAnswers.length);
     questionNum = 0;
   }
+  if (buttonValue && buttonValue !== 'reset') storedAnswers.push(buttonValue);
   const lastQuestion = questionNum === questions.length - 1;
   const linkAction = lastQuestion ? '/result' : '';
   const currentQuestion = questions[questionNum];
@@ -67,9 +68,6 @@ export function createQuestionPage(
           height={'100%'}
           style={bg}
         />
-        {buttonValue && buttonValue !== 'reset'
-          ? storedAnswers.push(parseInt(buttonValue))
-          : ''}
         <div style={{ ...fontStyle, textShadow: '0px 0px' }}>
           {currentQuestion.question}
         </div>
@@ -78,7 +76,7 @@ export function createQuestionPage(
     intents: [
       ...currentQuestion.answers.map(answer => {
         return (
-          <Button value={answer.weight} action={linkAction}>
+          <Button value={answer.value} action={linkAction}>
             {answer.answer}
           </Button>
         );
@@ -91,10 +89,10 @@ export function createQuestionPage(
 export function createResultPage(
   buttonValue: string | undefined,
   results: Results,
-  storedAnswers: number[]
+  storedAnswers: string[]
 ) {
   if (buttonValue && !isNaN(parseInt(buttonValue))) {
-    storedAnswers.push(parseInt(buttonValue));
+    storedAnswers.push(buttonValue);
   }
   const idx = calculateResult(results, storedAnswers);
   const result = results[idx];
@@ -132,14 +130,110 @@ export function createResultPage(
   };
 }
 
-function calculateResult(results: Results, storedAnswers: number[]): number {
+export function createMultiResultPage(
+  buttonValue: string | undefined,
+  results: Results,
+  storedAnswers: string[]
+) {
+  if (buttonValue) storedAnswers.push(buttonValue);
+  const items = getResultsByValues(results, storedAnswers);
+  console.log('items', items);
+  console.log('storedAnswers', storedAnswers);
+  return {
+    image: (
+      <div style={container}>
+        <img
+          alt='background'
+          src='/background.png'
+          width={'100%'}
+          height={'100%'}
+          style={bg}
+        />
+        <ul style={list}>
+          {items.map(item => {
+            return (
+              <li
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  width: '30%',
+                  border: '3px solid #6646E1',
+                  alignItems: 'center',
+                  padding: 12,
+                  borderRadius: 25,
+                  background: 'linear-gradient(to top left, #B647EE, #6646E1)',
+                }}
+              >
+                {item.name}
+                {'\n'}
+                <span
+                  style={{
+                    fontSize: 25,
+                    lineHeight: 2,
+                    padding: 2,
+                    fontWeight: 500,
+                  }}
+                >
+                  {item.desc}
+                </span>
+              </li>
+            );
+          })}
+        </ul>
+        {/* <img src={result.img} width={380} height={380} alt={result.name} />
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignText: 'center',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '60%',
+          }}
+        >
+          <div
+            style={{ ...fontStyle, fontSize: 45, textShadow: '0px 0px' }}
+          >{`You are ${result.name}.\n${result.desc}\n${result.enkryptDesc}`}</div>
+        </div> */}
+      </div>
+    ),
+    intents: [
+      <Button.Link href={enkryptLink}>Download Enkrypt</Button.Link>,
+      <Button.Reset>Start Over</Button.Reset>,
+    ],
+  };
+}
+
+function calculateResult(results: Results, storedAnswers: string[]): number {
   let sum = 0;
   for (const element of storedAnswers) {
-    sum += element;
+    sum += parseInt(element);
   }
   sum = Math.floor(sum / 2);
   if (sum > results.length - 1) sum = results.length - 1;
   return sum;
+}
+
+function getResultsByValues(
+  results: Results,
+  storedAnswers: string[]
+): Results {
+  // storedAnswer = ['ETH', 'Value2', 'Value3', 'val4', 'val5']
+  // result = {..., values: ['ETH', 'val', 'test', 'val4', 'val5']}
+  // Loop through results
+  // Loop through result.values by idx
+  // if result.values[idx] === storedAnswer[idx]
+  const vals = results.filter(result => {
+    let includeResult = false;
+    let count = 0;
+    for (const element of storedAnswers) {
+      includeResult = result.values?.includes(element) ?? false;
+      if (includeResult) count++;
+      if (count >= 4) break;
+    }
+    return includeResult;
+  });
+  return vals;
 }
 
 // NOTE: That if you are using the devtools and enable Edge Runtime, you will need to copy the devtools
