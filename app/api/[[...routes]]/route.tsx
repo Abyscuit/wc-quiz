@@ -90,7 +90,7 @@ const results: Results = [
   },
   {
     name: 'Paris Blockchain Week',
-    desc: 'Paris Blockchain Week is now one of the largest crypto events in the world.',
+    desc: 'One of the largest crypto events in the world.',
     values: ['ETH', 'BTC', 'SOL', 'Middle', 'Any', 'Europe', 'Invest', 'Tech'],
   },
   {
@@ -126,7 +126,7 @@ const results: Results = [
   },
   {
     name: 'Token2049 Singapore',
-    desc: 'A premier crypto conference event held annually in Dubai and Singapore.',
+    desc: 'A premier crypto conference event held annually.',
     values: ['ETH', 'BTC', 'SOL', 'End', 'Any', 'Asia', 'Tech', 'Network'],
   },
   {
