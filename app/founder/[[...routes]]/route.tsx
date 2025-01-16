@@ -18,40 +18,40 @@ const questions = [
   {
     question: 'Which wallet do you hold your crypto in?',
     answers: [
-      { answer: 'Exchange', weight: '0' },
-      { answer: 'Self-Custody', weight: '1' },
+      { answer: 'Exchange', value: '0' },
+      { answer: 'Self-Custody', value: '1' },
     ],
   },
   {
     question: 'Do you use DeFi lending?',
     answers: [
-      { answer: 'APR >100%', weight: '0' },
-      { answer: 'Yezzir', weight: '1' },
-      { answer: 'Wut', weight: '2' },
+      { answer: 'APR >100%', value: '0' },
+      { answer: 'Yezzir', value: '1' },
+      { answer: 'Wut', value: '2' },
     ],
   },
   {
     question: 'Which best describes crypto?',
     answers: [
-      { answer: 'Depends', weight: '0' },
-      { answer: 'Private', weight: '1' },
-      { answer: 'Transparent', weight: '2' },
+      { answer: 'Depends', value: '0' },
+      { answer: 'Private', value: '1' },
+      { answer: 'Transparent', value: '2' },
     ],
   },
   {
     question: 'Have you ever traded crypto on leverage?',
     answers: [
-      { answer: 'Absolutely', weight: '0' },
-      { answer: 'What??', weight: '1' },
-      { answer: 'Nope. Never', weight: '2' },
+      { answer: 'Absolutely', value: '0' },
+      { answer: 'What??', value: '1' },
+      { answer: 'Nope. Never', value: '2' },
     ],
   },
   {
     question: 'Do you participate in liquidity pools?',
     answers: [
-      { answer: 'Huh?', weight: '0' },
-      { answer: 'Nahh', weight: '1' },
-      { answer: 'Yeah', weight: '2' },
+      { answer: 'Huh?', value: '0' },
+      { answer: 'Nahh', value: '1' },
+      { answer: 'Yeah', value: '2' },
     ],
   },
 ];
@@ -94,7 +94,7 @@ const founders = [
   },
 ];
 
-const storedAnswers: number[] = [];
+const storedAnswers: string[] = [];
 let questionNum = -1;
 
 app.frame('/', c => {

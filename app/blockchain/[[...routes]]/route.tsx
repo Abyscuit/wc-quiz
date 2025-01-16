@@ -19,41 +19,41 @@ const questions: Questions = [
   {
     question: 'On chain, on-chain or onchain?',
     answers: [
-      { answer: 'On Chain', weight: '0' },
-      { answer: 'On-Chain', weight: '1' },
-      { answer: 'Onchain', weight: '2' },
+      { answer: 'On Chain', value: '0' },
+      { answer: 'On-Chain', value: '1' },
+      { answer: 'Onchain', value: '2' },
     ],
   },
   {
     question: 'Memecoins or DeFi?',
     answers: [
-      { answer: 'Memecoins', weight: '0' },
-      { answer: 'DeFi', weight: '1' },
-      { answer: '1) What', weight: '2' },
+      { answer: 'Memecoins', value: '0' },
+      { answer: 'DeFi', value: '1' },
+      { answer: '1) What', value: '2' },
     ],
   },
   {
     question: "I'm in it for the…",
     answers: [
-      { answer: 'Memes', weight: '0' },
-      { answer: 'Money', weight: '1' },
-      { answer: 'Tech', weight: '2' },
+      { answer: 'Memes', value: '0' },
+      { answer: 'Money', value: '1' },
+      { answer: 'Tech', value: '2' },
     ],
   },
   {
     question: 'When did you start in crypto?',
     answers: [
-      { answer: 'Post 2020', weight: '0' },
-      { answer: '2017-2020', weight: '1' },
-      { answer: 'Pre 2017', weight: '2' },
+      { answer: 'Post 2020', value: '0' },
+      { answer: '2017-2020', value: '1' },
+      { answer: 'Pre 2017', value: '2' },
     ],
   },
   {
     question: 'Are you currently staking any crypto?',
     answers: [
-      { answer: 'Maybe?', weight: '0' },
-      { answer: 'No', weight: '1' },
-      { answer: 'Yes', weight: '2' },
+      { answer: 'Maybe?', value: '0' },
+      { answer: 'No', value: '1' },
+      { answer: 'Yes', value: '2' },
     ],
   },
 ];
@@ -95,7 +95,7 @@ const crypto: Results = [
   },
 ];
 
-const storedAnswers: number[] = [];
+const storedAnswers: string[] = [];
 let questionNum = -1;
 
 app.frame('/', c => {
