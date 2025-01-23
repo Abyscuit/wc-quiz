@@ -12,12 +12,12 @@ import {
 } from '@/app/template/quiz';
 import { Questions, Results } from '@/app/template';
 
-const title = 'What crypto convention should you go to in 2025?';
-const app = createApp('/api', title);
+const title = 'What crypto conference should you go to in 2025?';
+const app = createApp('/api', title, '/redirect');
 
 const questions: Questions = [
   {
-    question: 'Which crypto are you most interested in?',
+    question: 'Which of these blockchains are you most interested in?',
     answers: [
       { answer: 'Ethereum', value: 'ETH' },
       { answer: 'Bitcoin', value: 'BTC' },
@@ -29,19 +29,19 @@ const questions: Questions = [
     answers: [
       { answer: 'Feb - Mar', value: 'Beginning' },
       { answer: 'Apr - May', value: 'Middle' },
-      { answer: 'Oct - Dec', value: 'End' },
+      { answer: 'Anytime', value: 'Anytime' },
     ],
   },
   {
-    question: 'How much are you willing to spend for a ticket?',
+    question: 'Would you have spent 10,000 Bitcoin on 2 large pizzas?',
     answers: [
-      { answer: '~$500', value: '500' },
-      { answer: '~$700', value: '700' },
-      { answer: 'Any', value: 'Any' },
+      { answer: 'Hell Nah', value: 'No-Pizza' },
+      { answer: 'Yezzir', value: 'Yes-Pizza' },
+      { answer: '+ wings', value: 'Wings' },
     ],
   },
   {
-    question: 'Which location are you willing to go?',
+    question: 'Which location would you prefer to go?',
     answers: [
       { answer: 'America', value: 'America' },
       { answer: 'Asia', value: 'Asia' },
@@ -67,8 +67,8 @@ const results: Results = [
       'BTC',
       'SOL',
       'Beginning',
-      '700',
-      'Any',
+      'Anytime',
+      'No-Pizza',
       'Asia',
       'Invest',
       'Network',
@@ -80,8 +80,10 @@ const results: Results = [
     values: [
       'ETH',
       'Beginning',
-      '700',
-      'Any',
+      'Anytime',
+      'No-Pizza',
+      'Yes-Pizza',
+      'Wings',
       'America',
       'Network',
       'Tech',
@@ -91,7 +93,18 @@ const results: Results = [
   {
     name: 'Paris Blockchain Week',
     desc: 'One of the largest crypto events in the world.',
-    values: ['ETH', 'BTC', 'SOL', 'Middle', 'Any', 'Europe', 'Invest', 'Tech'],
+    values: [
+      'ETH',
+      'BTC',
+      'SOL',
+      'Middle',
+      'Anytime',
+      'Yes-Pizza',
+      'Wings',
+      'Europe',
+      'Invest',
+      'Tech',
+    ],
   },
   {
     name: 'Consensus Toronto',
@@ -101,9 +114,8 @@ const results: Results = [
       'BTC',
       'SOL',
       'Middle',
-      '500',
-      '700',
-      'Any',
+      'Anytime',
+      'No-Pizza',
       'America',
       'Invest',
       'Network',
@@ -115,9 +127,10 @@ const results: Results = [
     values: [
       'BTC',
       'Middle',
-      '500',
-      '700',
-      'Any',
+      'Anytime',
+      'No-Pizza',
+      'Yes-Pizza',
+      'Wings',
       'America',
       'Network',
       'Tech',
@@ -127,17 +140,25 @@ const results: Results = [
   {
     name: 'Token2049 Singapore',
     desc: 'A premier crypto conference event held annually.',
-    values: ['ETH', 'BTC', 'SOL', 'End', 'Any', 'Asia', 'Tech', 'Network'],
+    values: [
+      'ETH',
+      'BTC',
+      'SOL',
+      'Anytime',
+      'Wings',
+      'Asia',
+      'Tech',
+      'Network',
+    ],
   },
   {
     name: 'Solana Breakpoint',
     desc: "Solana's flagship annual conference.",
     values: [
       'SOL',
-      'End',
-      '500',
-      '700',
-      'Any',
+      'Anytime',
+      'Yes-Pizza',
+      'Wings',
       'Asia',
       'Tech',
       'Network',
