@@ -5,10 +5,15 @@ import { bg, container, fontStyle, list } from '@/app/styles/styles';
 import { Roboto } from '@/app/styles/fonts';
 import { Questions, Results } from '.';
 
-export function createApp(path: string, title: string) {
+export function createApp(
+  path: string,
+  title: string,
+  browserLocation?: string
+) {
   return new Frog({
     assetsPath: '/',
     basePath: path,
+    browserLocation: browserLocation ?? undefined,
     // Supply a Hub to enable frame verification.
     // hub: neynar({ apiKey: 'NEYNAR_FROG_FM' })
     title: title,
@@ -19,7 +24,7 @@ export function createApp(path: string, title: string) {
   });
 }
 
-const enkryptLink =
+export const enkryptLink =
   'https://chrome.google.com/webstore/detail/enkrypt/kkpllkodjeloidieedojogacfhpaihoh';
 
 export function createIntro(title: string, bgImage?: string) {
