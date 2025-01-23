@@ -15,8 +15,8 @@ export async function generateMetadata(): Promise<Metadata> {
 const paths = [
   {
     path: '/api',
-    title: 'Convention Quiz',
-    desc: 'What crypto convention should you go to in 2025?',
+    title: 'Conference Quiz',
+    desc: 'What crypto conference should you go to in 2025?',
   },
   {
     path: '/founder',
