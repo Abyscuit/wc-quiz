@@ -10,53 +10,55 @@ import {
   createQuestionPage,
   createResultPage,
 } from '@/app/template/quiz';
+import { Questions, Results } from '@/app/template';
 
-const title = 'Which crypto founder are you?';
-const app = createApp('/founder', title);
+const title = 'Quiz Template';
+const app = createApp('/quiz-template', title);
 
-const questions = [
+const questions: Questions = [
   {
-    question: 'Which wallet do you hold your crypto in?',
+    question: 'Question 1',
     answers: [
-      { answer: 'Exchange', value: '0' },
-      { answer: 'Self-Custody', value: '1' },
+      { answer: 'Answer 1', value: '0' },
+      { answer: 'Answer 2', value: '1' },
+      { answer: 'Answer 3', value: '2' },
     ],
   },
   {
-    question: 'Do you use DeFi lending?',
+    question: 'Question 2',
     answers: [
-      { answer: 'APR >100%', value: '0' },
-      { answer: 'Yezzir', value: '1' },
-      { answer: 'Wut', value: '2' },
+      { answer: 'Answer 1', value: '0' },
+      { answer: 'Answer 2', value: '1' },
+      { answer: 'Answer 3', value: '2' },
     ],
   },
   {
-    question: 'Which best describes crypto?',
+    question: 'Question 3',
     answers: [
-      { answer: 'Depends', value: '0' },
-      { answer: 'Private', value: '1' },
-      { answer: 'Transparent', value: '2' },
+      { answer: 'Answer 1', value: '0' },
+      { answer: 'Answer 2', value: '1' },
+      { answer: 'Answer 3', value: '2' },
     ],
   },
   {
-    question: 'Have you ever traded crypto on leverage?',
+    question: 'Question 4',
     answers: [
-      { answer: 'Absolutely', value: '0' },
-      { answer: 'What??', value: '1' },
-      { answer: 'Nope. Never', value: '2' },
+      { answer: 'Answer 1', value: '0' },
+      { answer: 'Answer 2', value: '1' },
+      { answer: 'Answer 3', value: '2' },
     ],
   },
   {
-    question: 'Do you participate in liquidity pools?',
+    question: 'Question 5',
     answers: [
-      { answer: 'Huh?', value: '0' },
-      { answer: 'Nahh', value: '1' },
-      { answer: 'Yeah', value: '2' },
+      { answer: 'Answer 1', value: '0' },
+      { answer: 'Answer 2', value: '1' },
+      { answer: 'Answer 3', value: '2' },
     ],
   },
 ];
 
-const founders = [
+const results: Results = [
   {
     name: 'Sam Bankman-Fried',
     desc: "It's giving we could be cellies.",
@@ -69,7 +71,7 @@ const founders = [
     desc: 'Not afraid to try new things!',
     enkryptDesc:
       'And he/you should have used a self custody wallet like Enkrypt!',
-    img: `/images/founders/Do-Kwon.png`,
+    img: `/images/founders/Do-Kwan.png`,
   },
   {
     name: 'CZ',
@@ -99,7 +101,7 @@ let questionNum = -1;
 
 app.frame('/', c => {
   questionNum = -1;
-  return c.res(createIntro(title, '/images/founder-background.png'));
+  return c.res(createIntro(title));
 });
 
 app.frame('/questions', c => {
@@ -112,7 +114,7 @@ app.frame('/questions', c => {
 
 app.frame('/result', c => {
   const { buttonValue } = c;
-  return c.res(createResultPage(buttonValue, founders, storedAnswers));
+  return c.res(createResultPage(buttonValue, results, storedAnswers));
 });
 
 devtools(app, { serveStatic });

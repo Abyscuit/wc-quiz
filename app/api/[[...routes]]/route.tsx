@@ -7,96 +7,167 @@ import { serveStatic } from 'frog/serve-static';
 import {
   createApp,
   createIntro,
+  createMultiResultPage,
   createQuestionPage,
-  createResultPage,
 } from '@/app/template/quiz';
 import { Questions, Results } from '@/app/template';
 
-const title = 'Quiz Template';
-const app = createApp('/api', title);
+const title = 'What crypto conference should you go to in 2025?';
+const app = createApp('/api', title, '/redirect');
 
 const questions: Questions = [
   {
-    question: 'Question 1',
+    question: 'Which of these blockchains are you most interested in?',
     answers: [
-      { answer: 'Answer 1', weight: '0' },
-      { answer: 'Answer 2', weight: '1' },
-      { answer: 'Answer 3', weight: '2' },
+      { answer: 'Ethereum', value: 'ETH' },
+      { answer: 'Bitcoin', value: 'BTC' },
+      { answer: 'Solana', value: 'SOL' },
     ],
   },
   {
-    question: 'Question 2',
+    question: 'What time of the year would you want to go?',
     answers: [
-      { answer: 'Answer 1', weight: '0' },
-      { answer: 'Answer 2', weight: '1' },
-      { answer: 'Answer 3', weight: '2' },
+      { answer: 'Feb - Mar', value: 'Beginning' },
+      { answer: 'Apr - May', value: 'Middle' },
+      { answer: 'Anytime', value: 'Anytime' },
     ],
   },
   {
-    question: 'Question 3',
+    question: 'Would you have spent 10,000 Bitcoin on 2 large pizzas?',
     answers: [
-      { answer: 'Answer 1', weight: '0' },
-      { answer: 'Answer 2', weight: '1' },
-      { answer: 'Answer 3', weight: '2' },
+      { answer: 'Hell Nah', value: 'No-Pizza' },
+      { answer: 'Yezzir', value: 'Yes-Pizza' },
+      { answer: '+ wings', value: 'Wings' },
     ],
   },
   {
-    question: 'Question 4',
+    question: 'Which location would you prefer to go?',
     answers: [
-      { answer: 'Answer 1', weight: '0' },
-      { answer: 'Answer 2', weight: '1' },
-      { answer: 'Answer 3', weight: '2' },
+      { answer: 'America', value: 'America' },
+      { answer: 'Asia', value: 'Asia' },
+      { answer: 'Europe', value: 'Europe' },
     ],
   },
   {
-    question: 'Question 5',
+    question: 'What is the main thing you look for in a conference?',
     answers: [
-      { answer: 'Answer 1', weight: '0' },
-      { answer: 'Answer 2', weight: '1' },
-      { answer: 'Answer 3', weight: '2' },
+      { answer: 'Networking', value: 'Network' },
+      { answer: 'New Tech', value: 'Tech' },
+      { answer: 'Investing', value: 'Invest' },
     ],
   },
 ];
 
 const results: Results = [
   {
-    name: 'Sam Bankman-Fried',
-    desc: "It's giving we could be cellies.",
-    enkryptDesc:
-      'And he/you should have used a self custody wallet like Enkrypt!',
-    img: `/images/founders/Sam-Bankman-Fried.png`,
+    name: 'Consensus Hong Kong',
+    desc: 'This is the latest edition of the Consensus conference.',
+    values: [
+      'ETH',
+      'BTC',
+      'SOL',
+      'Beginning',
+      'Anytime',
+      'No-Pizza',
+      'Asia',
+      'Invest',
+      'Network',
+    ],
   },
   {
-    name: 'Do Kwon',
-    desc: 'Not afraid to try new things!',
-    enkryptDesc:
-      'And he/you should have used a self custody wallet like Enkrypt!',
-    img: `/images/founders/Do-Kwan.png`,
+    name: 'ETHDenver',
+    desc: 'Must-attend event for blockchain enthusiasts.',
+    values: [
+      'ETH',
+      'Beginning',
+      'Anytime',
+      'No-Pizza',
+      'Yes-Pizza',
+      'Wings',
+      'America',
+      'Network',
+      'Tech',
+      'Invest',
+    ],
   },
   {
-    name: 'CZ',
-    desc: "You're quick to act and overcome any challenges.",
-    enkryptDesc:
-      "And he/you'd use a self custody multichain wallet like Enkrypt!",
-    img: `/images/founders/CZ.png`,
+    name: 'Paris Blockchain Week',
+    desc: 'One of the largest crypto events in the world.',
+    values: [
+      'ETH',
+      'BTC',
+      'SOL',
+      'Middle',
+      'Anytime',
+      'Yes-Pizza',
+      'Wings',
+      'Europe',
+      'Invest',
+      'Tech',
+    ],
   },
   {
-    name: 'Vitalik Buterin',
-    desc: "You used to play WoW, now you're an onchain hero and animal lover.",
-    enkryptDesc:
-      "And he/you'd use a self custody multichain wallet like Enkrypt!",
-    img: `/images/founders/Vitalik-Buterin.png`,
+    name: 'Consensus Toronto',
+    desc: 'This is the latest installment of the Consensus conference.',
+    values: [
+      'ETH',
+      'BTC',
+      'SOL',
+      'Middle',
+      'Anytime',
+      'No-Pizza',
+      'America',
+      'Invest',
+      'Network',
+    ],
   },
   {
-    name: 'Satoshi Nakamoto',
-    desc: 'Very calculated. Very based.',
-    enkryptDesc:
-      "And he/you'd use a self custody multichain wallet like Enkrypt!",
-    img: `/images/founders/Satoshi-Nakamoto.png`,
+    name: 'Bitcoin 2025',
+    desc: 'This is the largest Bitcoin conference in the world.',
+    values: [
+      'BTC',
+      'Middle',
+      'Anytime',
+      'No-Pizza',
+      'Yes-Pizza',
+      'Wings',
+      'America',
+      'Network',
+      'Tech',
+      'Invest',
+    ],
+  },
+  {
+    name: 'Token2049 Singapore',
+    desc: 'A premier crypto conference event held annually.',
+    values: [
+      'ETH',
+      'BTC',
+      'SOL',
+      'Anytime',
+      'Wings',
+      'Asia',
+      'Tech',
+      'Network',
+    ],
+  },
+  {
+    name: 'Solana Breakpoint',
+    desc: "Solana's flagship annual conference.",
+    values: [
+      'SOL',
+      'Anytime',
+      'Yes-Pizza',
+      'Wings',
+      'Asia',
+      'Tech',
+      'Network',
+      'Invest',
+    ],
   },
 ];
 
-const storedAnswers: number[] = [];
+const storedAnswers: string[] = [];
 let questionNum = -1;
 
 app.frame('/', c => {
@@ -114,7 +185,7 @@ app.frame('/questions', c => {
 
 app.frame('/result', c => {
   const { buttonValue } = c;
-  return c.res(createResultPage(buttonValue, results, storedAnswers));
+  return c.res(createMultiResultPage(buttonValue, results, storedAnswers));
 });
 
 devtools(app, { serveStatic });

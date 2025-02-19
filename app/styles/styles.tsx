@@ -26,6 +26,27 @@ export const container = {
   textAlign: 'center',
 };
 
+export const list = {
+  display: 'flex',
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  gap: '8px',
+  width: '100%',
+  height: '100%',
+  justifyContent: 'center',
+  alignItems: 'center',
+  alignContent: 'center',
+  textAlign: 'center',
+  color: 'white',
+  fontSize: 30,
+  fontStyle: 'normal',
+  fontFamily: 'Roboto',
+  fontWeight: 700,
+  letterSpacing: '-0.025em',
+  lineHeight: 1.4,
+  marginTop: 130,
+};
+
 export const bg = {
   position: 'absolute',
   zIndex: -1,

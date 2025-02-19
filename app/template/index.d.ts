@@ -2,13 +2,14 @@ export type Questions = {
   question: string;
   answers: {
     answer: string;
-    weight: string;
+    value: string;
   }[];
 }[];
 
 export type Results = {
   name: string;
   desc: string;
-  enkryptDesc: string;
-  img: string;
+  enkryptDesc?: string;
+  img?: string;
+  values?: string[];
 }[];
