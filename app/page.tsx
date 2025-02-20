@@ -5,7 +5,7 @@ import styles from './page.module.css';
 
 export async function generateMetadata(): Promise<Metadata> {
   const frameTags = await getFrameMetadata(
-    `${process.env.VERCEL_URL || 'http://localhost:3000'}/api`
+    `${process.env.VERCEL_URL || 'http://localhost:3000'}/api`,
   );
   return {
     other: frameTags,
@@ -17,6 +17,11 @@ const paths = [
     path: '/api',
     title: 'Conference Quiz',
     desc: 'What crypto conference should you go to in 2025?',
+  },
+  {
+    path: '/staking',
+    title: 'Staking Quiz',
+    desc: 'What crypto should you stake?',
   },
   {
     path: '/founder',
@@ -41,8 +46,7 @@ export default function Home() {
               className={styles.card}
               target='_blank'
               rel='noopener noreferrer'
-              key={data.path}
-            >
+              key={data.path}>
               <h2>
                 {data.title} <span>-&gt;</span>
               </h2>
