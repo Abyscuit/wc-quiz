@@ -1,0 +1,23 @@
+{
+  "rules": {
+    "eqeqeq": [
+      2,
+      "allow-null"
+    ],
+    "indent": [
+      2,
+      2
+    ],
+    "semi": [
+      2,
+      "always"
+    ],
+    "no-console": "error"
+  },
+  "extends": [
+    "next/core-web-vitals",
+    "next/typescript",
+    "plugin:prettier/recommended",
+    "prettier"
+  ]
+}
