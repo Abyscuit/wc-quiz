@@ -94,7 +94,8 @@ export function createQuestionPage(
 export function createResultPage(
   buttonValue: string | undefined,
   results: Results,
-  storedAnswers: string[]
+  storedAnswers: string[],
+  resultString?: string
 ) {
   if (buttonValue && !isNaN(parseInt(buttonValue))) {
     storedAnswers.push(buttonValue);
@@ -122,9 +123,12 @@ export function createResultPage(
             width: '60%',
           }}
         >
-          <div
-            style={{ ...fontStyle, fontSize: 45, textShadow: '0px 0px' }}
-          >{`You are ${result.name}.\n${result.desc}\n${result.enkryptDesc}`}</div>
+          <div style={{ ...fontStyle, fontSize: 45, textShadow: '0px 0px' }}>
+            {`${
+              resultString?.replace('{name}', result.name) ??
+              `You are ${result.name}.`
+            }\n${result.desc}\n${result.enkryptDesc}`}
+          </div>
         </div>
       </div>
     ),
