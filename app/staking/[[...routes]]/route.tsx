@@ -25,35 +25,35 @@ const questions: Questions = [
     ],
   },
   {
-    question: 'Question 2',
+    question: 'Would you stake on a centralized exchange, dApp or on a node?',
     answers: [
-      { answer: 'Answer 1', value: '0' },
-      { answer: 'Answer 2', value: '1' },
-      { answer: 'Answer 3', value: '2' },
+      { answer: 'Exchange', value: '0' },
+      { answer: 'dApp', value: '1' },
+      { answer: 'Node', value: '2' },
     ],
   },
   {
-    question: 'Question 3',
+    question: 'Do you prefer maintaining your own validator?',
     answers: [
-      { answer: 'Answer 1', value: '0' },
-      { answer: 'Answer 2', value: '1' },
-      { answer: 'Answer 3', value: '2' },
+      { answer: 'Nah', value: '0' },
+      { answer: 'Yeah', value: '1' },
+      { answer: 'Why?', value: '2' },
     ],
   },
   {
-    question: 'Question 4',
+    question:
+      'Which would you choose high APR but volatile blockchain or lower APR and stable blockchain?',
     answers: [
-      { answer: 'Answer 1', value: '0' },
-      { answer: 'Answer 2', value: '1' },
-      { answer: 'Answer 3', value: '2' },
+      { answer: 'High APR', value: '0' },
+      { answer: 'Stablility', value: '1' },
     ],
   },
   {
-    question: 'Question 5',
+    question: 'Would you want newest tech or older but proven tech?',
     answers: [
-      { answer: 'Answer 1', value: '0' },
-      { answer: 'Answer 2', value: '1' },
-      { answer: 'Answer 3', value: '2' },
+      { answer: 'idc', value: '0' },
+      { answer: 'Proven', value: '1' },
+      { answer: 'Newest', value: '2' },
     ],
   },
 ];
@@ -63,32 +63,32 @@ const enkryptDesc =
 const crypto: Results = [
   {
     name: 'Polkadot',
-    desc: "It's giving fun to be around.",
-    enkryptDesc: enkryptDesc.replace('{crypto}', 'Polkadot'),
+    desc: 'It can be a bit technical but Enkrypt makes it easy!',
+    enkryptDesc: enkryptDesc.replace('{crypto}', 'DOT'),
     img: '/images/crypto/Polkadot.png',
   },
   {
     name: 'Polygon',
-    desc: 'Basically very based.',
-    enkryptDesc: enkryptDesc.replace('{crypto}', 'Polygon'),
+    desc: 'Native staking is pretty simple but only available on Ethereum.',
+    enkryptDesc: enkryptDesc.replace('{crypto}', 'POL'),
     img: '/images/crypto/Polygon.png',
   },
   {
-    name: 'Ethereum',
-    desc: 'You adapt to challenges and are not afraid to try new things.',
-    enkryptDesc: enkryptDesc.replace('{crypto}', 'Ethereum'),
-    img: '/images/crypto/Ethereum.png',
-  },
-  {
     name: 'Arthera',
-    desc: 'A reliable leader, the people love you!',
-    enkryptDesc: enkryptDesc.replace('{crypto}', 'Arthera'),
+    desc: 'Really straightforward using the Arthera Dashboard.',
+    enkryptDesc: enkryptDesc.replace('{crypto}', 'AA'),
     img: '/images/crypto/Arthera.png',
   },
   {
+    name: 'Ethereum',
+    desc: 'You have many options on staking ETH!',
+    enkryptDesc: enkryptDesc.replace('{crypto}', 'ETH'),
+    img: '/images/crypto/Ethereum.png',
+  },
+  {
     name: 'Solana',
-    desc: 'Not afraid to embrace your silly side!',
-    enkryptDesc: enkryptDesc.replace('{crypto}', 'Solana'),
+    desc: 'Solana staking in now available on Enkrypt!',
+    enkryptDesc: enkryptDesc.replace('{crypto}', 'SOL'),
     img: '/images/crypto/Solana.png',
   },
 ];
@@ -111,7 +111,14 @@ app.frame('/questions', c => {
 
 app.frame('/result', c => {
   const { buttonValue } = c;
-  return c.res(createResultPage(buttonValue, crypto, storedAnswers));
+  return c.res(
+    createResultPage(
+      buttonValue,
+      crypto,
+      storedAnswers,
+      'You should stake {name}!'
+    )
+  );
 });
 
 devtools(app, { serveStatic });
