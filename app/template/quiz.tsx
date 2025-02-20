@@ -43,10 +43,9 @@ export function createIntro(title: string, bgImage?: string) {
     ),
     intents: [
       <Button
-        key={'start'}
         value='reset'
         action='/questions'>
-        Let&apos;s find out!
+        Let's find out!
       </Button>,
     ],
   };
@@ -85,14 +84,13 @@ export function createQuestionPage(
       ...currentQuestion.answers.map(answer => {
         return (
           <Button
-            key={answer.value}
             value={answer.value}
             action={linkAction}>
             {answer.answer}
           </Button>
         );
       }),
-      <Button.Reset key={'start over'}>Start Over</Button.Reset>,
+      <Button.Reset>Start Over</Button.Reset>,
     ],
   };
 }
@@ -142,12 +140,8 @@ export function createResultPage(
       </div>
     ),
     intents: [
-      <Button.Link
-        key={'enkrypt link'}
-        href={enkryptLink}>
-        Download Enkrypt
-      </Button.Link>,
-      <Button.Reset key={'start over'}>Start Over</Button.Reset>,
+      <Button.Link href={enkryptLink}>Download Enkrypt</Button.Link>,
+      <Button.Reset>Start Over</Button.Reset>,
     ],
   };
 }
@@ -217,12 +211,8 @@ export function createMultiResultPage(
       </div>
     ),
     intents: [
-      <Button.Link
-        key={'enkrypt link'}
-        href={enkryptLink}>
-        Download Enkrypt
-      </Button.Link>,
-      <Button.Reset key={'start over'}>Start Over</Button.Reset>,
+      <Button.Link href={enkryptLink}>Download Enkrypt</Button.Link>,
+      <Button.Reset>Start Over</Button.Reset>,
     ],
   };
 }

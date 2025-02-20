@@ -14,16 +14,16 @@
   },
   "dependencies": {
     "frog": "latest",
-    "hono": "^4.6.13",
-    "next": "^14.1.1",
-    "react": "^18",
-    "react-dom": "^18"
+    "hono": "latest",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest"
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^19.7.1",
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
     "commitlint": "^19.7.1",
     "devmoji": "^2.3.0",
     "eslint": "8.57.1",
@@ -33,6 +33,6 @@
     "husky": "^9.1.7",
     "prettier": "^3.5.1",
     "typescript": "^5",
-    "vercel": "^32.3.0"
+    "vercel": "latest"
   }
 }
