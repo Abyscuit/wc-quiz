@@ -18,7 +18,7 @@ export function createApp(
     // hub: neynar({ apiKey: 'NEYNAR_FROG_FM' })
     title: title,
     imageOptions: {
-      // @ts-ignore
+      // @ts-expect-error font likes to throw error...
       fonts: [...Roboto],
     },
   });
@@ -43,9 +43,10 @@ export function createIntro(title: string, bgImage?: string) {
     ),
     intents: [
       <Button
+        key={'start'}
         value='reset'
         action='/questions'>
-        Let's find out!
+        Let&apos;s find out!
       </Button>,
     ],
   };
@@ -84,13 +85,14 @@ export function createQuestionPage(
       ...currentQuestion.answers.map(answer => {
         return (
           <Button
+            key={answer.value}
             value={answer.value}
             action={linkAction}>
             {answer.answer}
           </Button>
         );
       }),
-      <Button.Reset>Start Over</Button.Reset>,
+      <Button.Reset key={'start over'}>Start Over</Button.Reset>,
     ],
   };
 }
@@ -140,8 +142,12 @@ export function createResultPage(
       </div>
     ),
     intents: [
-      <Button.Link href={enkryptLink}>Download Enkrypt</Button.Link>,
-      <Button.Reset>Start Over</Button.Reset>,
+      <Button.Link
+        key={'enkrypt link'}
+        href={enkryptLink}>
+        Download Enkrypt
+      </Button.Link>,
+      <Button.Reset key={'start over'}>Start Over</Button.Reset>,
     ],
   };
 }
@@ -153,8 +159,6 @@ export function createMultiResultPage(
 ) {
   if (buttonValue) storedAnswers.push(buttonValue);
   const items = getResultsByValues(results, storedAnswers);
-  console.log('items', items);
-  console.log('storedAnswers', storedAnswers);
   return {
     image: (
       <div style={container}>
@@ -169,6 +173,7 @@ export function createMultiResultPage(
           {items.map(item => {
             return (
               <li
+                key={item.name}
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
@@ -212,8 +217,12 @@ export function createMultiResultPage(
       </div>
     ),
     intents: [
-      <Button.Link href={enkryptLink}>Download Enkrypt</Button.Link>,
-      <Button.Reset>Start Over</Button.Reset>,
+      <Button.Link
+        key={'enkrypt link'}
+        href={enkryptLink}>
+        Download Enkrypt
+      </Button.Link>,
+      <Button.Reset key={'start over'}>Start Over</Button.Reset>,
     ],
   };
 }

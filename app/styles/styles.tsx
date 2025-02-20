@@ -1,5 +1,5 @@
-const enkryptBgColor =
-  'linear-gradient(180deg, rgba(62,28,203,1) 0%, rgba(111,76,254,1) 53%, rgba(194,180,255,1) 130%)';
+// const enkryptBgColor =
+// 'linear-gradient(180deg, rgba(62,28,203,1) 0%, rgba(111,76,254,1) 53%, rgba(194,180,255,1) 130%)';
 
 export const fontStyle = {
   color: 'white',
