@@ -18,7 +18,7 @@ export function createApp(
     // hub: neynar({ apiKey: 'NEYNAR_FROG_FM' })
     title: title,
     imageOptions: {
-      // @ts-ignore
+      // @ts-expect-error font throws error
       fonts: [...Roboto],
     },
   });
