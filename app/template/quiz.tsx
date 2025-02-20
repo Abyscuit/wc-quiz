@@ -8,7 +8,7 @@ import { Questions, Results } from '.';
 export function createApp(
   path: string,
   title: string,
-  browserLocation?: string
+  browserLocation?: string,
 ) {
   return new Frog({
     assetsPath: '/',
@@ -42,7 +42,9 @@ export function createIntro(title: string, bgImage?: string) {
       </div>
     ),
     intents: [
-      <Button value='reset' action='/questions'>
+      <Button
+        value='reset'
+        action='/questions'>
         Let's find out!
       </Button>,
     ],
@@ -53,7 +55,7 @@ export function createQuestionPage(
   buttonValue: string | undefined,
   questions: Questions,
   questionNum: number,
-  storedAnswers: string[]
+  storedAnswers: string[],
 ) {
   if (buttonValue === 'reset') {
     storedAnswers.splice(0, storedAnswers.length);
@@ -81,7 +83,9 @@ export function createQuestionPage(
     intents: [
       ...currentQuestion.answers.map(answer => {
         return (
-          <Button value={answer.value} action={linkAction}>
+          <Button
+            value={answer.value}
+            action={linkAction}>
             {answer.answer}
           </Button>
         );
@@ -94,7 +98,7 @@ export function createQuestionPage(
 export function createResultPage(
   buttonValue: string | undefined,
   results: Results,
-  storedAnswers: string[]
+  storedAnswers: string[],
 ) {
   if (buttonValue && !isNaN(parseInt(buttonValue))) {
     storedAnswers.push(buttonValue);
@@ -111,7 +115,12 @@ export function createResultPage(
           height={'100%'}
           style={bg}
         />
-        <img src={result.img} width={380} height={380} alt={result.name} />
+        <img
+          src={result.img}
+          width={380}
+          height={380}
+          alt={result.name}
+        />
         <div
           style={{
             display: 'flex',
@@ -120,11 +129,13 @@ export function createResultPage(
             alignItems: 'center',
             justifyContent: 'center',
             width: '60%',
-          }}
-        >
+          }}>
           <div
-            style={{ ...fontStyle, fontSize: 45, textShadow: '0px 0px' }}
-          >{`You are ${result.name}.\n${result.desc}\n${result.enkryptDesc}`}</div>
+            style={{
+              ...fontStyle,
+              fontSize: 45,
+              textShadow: '0px 0px',
+            }}>{`You are ${result.name}.\n${result.desc}\n${result.enkryptDesc}`}</div>
         </div>
       </div>
     ),
@@ -138,7 +149,7 @@ export function createResultPage(
 export function createMultiResultPage(
   buttonValue: string | undefined,
   results: Results,
-  storedAnswers: string[]
+  storedAnswers: string[],
 ) {
   if (buttonValue) storedAnswers.push(buttonValue);
   const items = getResultsByValues(results, storedAnswers);
@@ -167,8 +178,7 @@ export function createMultiResultPage(
                   padding: 12,
                   borderRadius: 25,
                   background: 'linear-gradient(to top left, #B647EE, #6646E1)',
-                }}
-              >
+                }}>
                 {item.name}
                 {'\n'}
                 <span
@@ -177,8 +187,7 @@ export function createMultiResultPage(
                     lineHeight: 2,
                     padding: 2,
                     fontWeight: 500,
-                  }}
-                >
+                  }}>
                   {item.desc}
                 </span>
               </li>
@@ -221,7 +230,7 @@ function calculateResult(results: Results, storedAnswers: string[]): number {
 
 function getResultsByValues(
   results: Results,
-  storedAnswers: string[]
+  storedAnswers: string[],
 ): Results {
   // storedAnswer = ['ETH', 'Value2', 'Value3', 'val4', 'val5']
   // result = {..., values: ['ETH', 'val', 'test', 'val4', 'val5']}

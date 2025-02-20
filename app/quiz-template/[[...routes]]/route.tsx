@@ -108,7 +108,7 @@ app.frame('/questions', c => {
   const { buttonValue } = c;
   questionNum++;
   return c.res(
-    createQuestionPage(buttonValue, questions, questionNum, storedAnswers)
+    createQuestionPage(buttonValue, questions, questionNum, storedAnswers),
   );
 });
 
