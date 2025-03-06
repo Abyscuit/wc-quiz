@@ -53,7 +53,8 @@ export function createQuestionPage(
   buttonValue: string | undefined,
   questions: Questions,
   questionNum: number,
-  storedAnswers: string[]
+  storedAnswers: string[],
+  background?: string
 ) {
   if (buttonValue === 'reset') {
     storedAnswers.splice(0, storedAnswers.length);
@@ -68,7 +69,7 @@ export function createQuestionPage(
       <div style={container}>
         <img
           alt='background'
-          src='/background.png'
+          src={background ?? '/background.png'}
           width={'100%'}
           height={'100%'}
           style={bg}
