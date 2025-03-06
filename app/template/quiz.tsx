@@ -97,11 +97,11 @@ export function createResultPage(
   storedAnswers: string[],
   resultString?: string
 ) {
-  if (buttonValue && !isNaN(parseInt(buttonValue))) {
+  if (buttonValue && buttonValue !== 'reset') {
     storedAnswers.push(buttonValue);
   }
   const idx = calculateResult(results, storedAnswers);
-  const result = results[idx];
+  const result = typeof idx === 'number' ? results[idx] : idx[idx.length - 1];
   return {
     image: (
       <div style={{ ...container, flexDirection: 'row' }}>
@@ -146,8 +146,6 @@ export function createMultiResultPage(
 ) {
   if (buttonValue) storedAnswers.push(buttonValue);
   const items = getResultsByValues(results, storedAnswers);
-  console.log('items', items);
-  console.log('storedAnswers', storedAnswers);
   return {
     image: (
       <div style={container}>
@@ -189,21 +187,6 @@ export function createMultiResultPage(
             );
           })}
         </ul>
-        {/* <img src={result.img} width={380} height={380} alt={result.name} />
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignText: 'center',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '60%',
-          }}
-        >
-          <div
-            style={{ ...fontStyle, fontSize: 45, textShadow: '0px 0px' }}
-          >{`You are ${result.name}.\n${result.desc}\n${result.enkryptDesc}`}</div>
-        </div> */}
       </div>
     ),
     intents: [
@@ -213,7 +196,17 @@ export function createMultiResultPage(
   };
 }
 
-function calculateResult(results: Results, storedAnswers: string[]): number {
+function calculateResult(
+  results: Results,
+  storedAnswers: string[]
+): number | Results {
+  if (isNaN(parseInt(storedAnswers[0]))) {
+    return results.filter(result => {
+      return storedAnswers.every(answer => {
+        return result.values?.includes(answer);
+      });
+    });
+  }
   let sum = 0;
   for (const element of storedAnswers) {
     sum += parseInt(element);
@@ -227,11 +220,6 @@ function getResultsByValues(
   results: Results,
   storedAnswers: string[]
 ): Results {
-  // storedAnswer = ['ETH', 'Value2', 'Value3', 'val4', 'val5']
-  // result = {..., values: ['ETH', 'val', 'test', 'val4', 'val5']}
-  // Loop through results
-  // Loop through result.values by idx
-  // if result.values[idx] === storedAnswer[idx]
   const vals = results.filter(result => {
     let includeResult = false;
     let count = 0;
