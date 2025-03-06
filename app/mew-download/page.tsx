@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation';
+import { mewMobileLink } from '../template/quiz';
 
 export default function Page() {
-  return <main>{redirect('https://download.mewwallet.com/')}</main>;
+  return <main>{redirect(mewMobileLink)}</main>;
 }
