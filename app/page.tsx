@@ -33,6 +33,11 @@ const paths = [
     title: 'Blockchain Quiz',
     desc: 'What blockchain are you?',
   },
+  {
+    path: '/memecoin',
+    title: 'Memecoin Quiz',
+    desc: 'What memecoin are you?',
+  },
 ];
 
 export default function Home() {
