@@ -65,7 +65,7 @@ const questions: Questions = [
   },
 ];
 
-const nftDesc = 'You can get {NFT} NFT by downloading MEW Wallet!';
+const nftDesc = 'You can get {NFT} NFT by downloading the MEW Mobile app!';
 
 const results: Results = [
   {

@@ -177,6 +177,7 @@ app.frame('/result', c => {
       buttonValue,
       crypto,
       storedAnswers,
+      false,
       'You should stake {name}!'
     )
   );
