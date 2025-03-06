@@ -130,7 +130,7 @@ app.frame('/questions', c => {
 
 app.frame('/result', c => {
   const { buttonValue } = c;
-  return c.res(createResultPage(buttonValue, results, storedAnswers));
+  return c.res(createResultPage(buttonValue, results, storedAnswers, true));
 });
 
 devtools(app, { serveStatic });

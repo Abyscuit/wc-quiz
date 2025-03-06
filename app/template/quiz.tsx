@@ -5,6 +5,10 @@ import { bg, container, fontStyle, list } from '@/app/styles/styles';
 import { Roboto } from '@/app/styles/fonts';
 import { Questions, Results } from '.';
 
+export const mewMobileLink = 'https://download.mewwallet.com/';
+export const enkryptLink =
+  'https://chrome.google.com/webstore/detail/enkrypt/kkpllkodjeloidieedojogacfhpaihoh';
+
 export function createApp(
   path: string,
   title: string,
@@ -23,9 +27,6 @@ export function createApp(
     },
   });
 }
-
-export const enkryptLink =
-  'https://chrome.google.com/webstore/detail/enkrypt/kkpllkodjeloidieedojogacfhpaihoh';
 
 export function createIntro(title: string, bgImage?: string) {
   return {
@@ -96,6 +97,7 @@ export function createResultPage(
   buttonValue: string | undefined,
   results: Results,
   storedAnswers: string[],
+  mewmobile?: boolean,
   resultString?: string
 ) {
   if (buttonValue && buttonValue !== 'reset') {
@@ -134,7 +136,9 @@ export function createResultPage(
       </div>
     ),
     intents: [
-      <Button.Link href={enkryptLink}>Download Enkrypt</Button.Link>,
+      <Button.Link href={mewmobile ? mewMobileLink : enkryptLink}>
+        {mewmobile ? 'Download MEW Mobile' : 'Download Enkrypt'}
+      </Button.Link>,
       <Button.Reset>Start Over</Button.Reset>,
     ],
   };
