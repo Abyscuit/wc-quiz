@@ -19,6 +19,11 @@ const paths = [
     desc: 'What crypto conference should you go to in 2025?',
   },
   {
+    path: '/staking',
+    title: 'Staking Quiz',
+    desc: 'Which crypto should you stake?',
+  },
+  {
     path: '/founder',
     title: 'Crypto Founder Quiz',
     desc: 'Which crypto founder are you?',
@@ -27,6 +32,11 @@ const paths = [
     path: '/blockchain',
     title: 'Blockchain Quiz',
     desc: 'What blockchain are you?',
+  },
+  {
+    path: '/memecoin',
+    title: 'Memecoin Quiz',
+    desc: 'What memecoin are you?',
   },
 ];
 

@@ -5,6 +5,10 @@ import { bg, container, fontStyle, list } from '@/app/styles/styles';
 import { Roboto } from '@/app/styles/fonts';
 import { Questions, Results } from '.';
 
+export const mewMobileLink = 'https://download.mewwallet.com/';
+export const enkryptLink =
+  'https://chrome.google.com/webstore/detail/enkrypt/kkpllkodjeloidieedojogacfhpaihoh';
+
 export function createApp(
   path: string,
   title: string,
@@ -18,14 +22,11 @@ export function createApp(
     // hub: neynar({ apiKey: 'NEYNAR_FROG_FM' })
     title: title,
     imageOptions: {
-      // @ts-ignore
+      // @ts-expect-error font throws error
       fonts: [...Roboto],
     },
   });
 }
-
-export const enkryptLink =
-  'https://chrome.google.com/webstore/detail/enkrypt/kkpllkodjeloidieedojogacfhpaihoh';
 
 export function createIntro(title: string, bgImage?: string) {
   return {
@@ -53,7 +54,8 @@ export function createQuestionPage(
   buttonValue: string | undefined,
   questions: Questions,
   questionNum: number,
-  storedAnswers: string[]
+  storedAnswers: string[],
+  background?: string
 ) {
   if (buttonValue === 'reset') {
     storedAnswers.splice(0, storedAnswers.length);
@@ -68,7 +70,7 @@ export function createQuestionPage(
       <div style={container}>
         <img
           alt='background'
-          src='/background.png'
+          src={background ?? '/background.png'}
           width={'100%'}
           height={'100%'}
           style={bg}
@@ -94,13 +96,15 @@ export function createQuestionPage(
 export function createResultPage(
   buttonValue: string | undefined,
   results: Results,
-  storedAnswers: string[]
+  storedAnswers: string[],
+  mewmobile?: boolean,
+  resultString?: string
 ) {
-  if (buttonValue && !isNaN(parseInt(buttonValue))) {
+  if (buttonValue && buttonValue !== 'reset') {
     storedAnswers.push(buttonValue);
   }
   const idx = calculateResult(results, storedAnswers);
-  const result = results[idx];
+  const result = typeof idx === 'number' ? results[idx] : idx[idx.length - 1];
   return {
     image: (
       <div style={{ ...container, flexDirection: 'row' }}>
@@ -122,14 +126,19 @@ export function createResultPage(
             width: '60%',
           }}
         >
-          <div
-            style={{ ...fontStyle, fontSize: 45, textShadow: '0px 0px' }}
-          >{`You are ${result.name}.\n${result.desc}\n${result.enkryptDesc}`}</div>
+          <div style={{ ...fontStyle, fontSize: 45, textShadow: '0px 0px' }}>
+            {`${
+              resultString?.replace('{name}', result.name) ??
+              `You are ${result.name}.`
+            }\n${result.desc}\n${result.enkryptDesc}`}
+          </div>
         </div>
       </div>
     ),
     intents: [
-      <Button.Link href={enkryptLink}>Download Enkrypt</Button.Link>,
+      <Button.Link href={mewmobile ? mewMobileLink : enkryptLink}>
+        {mewmobile ? 'Download MEW Mobile' : 'Download Enkrypt'}
+      </Button.Link>,
       <Button.Reset>Start Over</Button.Reset>,
     ],
   };
@@ -142,8 +151,6 @@ export function createMultiResultPage(
 ) {
   if (buttonValue) storedAnswers.push(buttonValue);
   const items = getResultsByValues(results, storedAnswers);
-  console.log('items', items);
-  console.log('storedAnswers', storedAnswers);
   return {
     image: (
       <div style={container}>
@@ -185,21 +192,6 @@ export function createMultiResultPage(
             );
           })}
         </ul>
-        {/* <img src={result.img} width={380} height={380} alt={result.name} />
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignText: 'center',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '60%',
-          }}
-        >
-          <div
-            style={{ ...fontStyle, fontSize: 45, textShadow: '0px 0px' }}
-          >{`You are ${result.name}.\n${result.desc}\n${result.enkryptDesc}`}</div>
-        </div> */}
       </div>
     ),
     intents: [
@@ -209,7 +201,17 @@ export function createMultiResultPage(
   };
 }
 
-function calculateResult(results: Results, storedAnswers: string[]): number {
+function calculateResult(
+  results: Results,
+  storedAnswers: string[]
+): number | Results {
+  if (isNaN(parseInt(storedAnswers[0]))) {
+    return results.filter(result => {
+      return storedAnswers.every(answer => {
+        return result.values?.includes(answer);
+      });
+    });
+  }
   let sum = 0;
   for (const element of storedAnswers) {
     sum += parseInt(element);
@@ -223,11 +225,6 @@ function getResultsByValues(
   results: Results,
   storedAnswers: string[]
 ): Results {
-  // storedAnswer = ['ETH', 'Value2', 'Value3', 'val4', 'val5']
-  // result = {..., values: ['ETH', 'val', 'test', 'val4', 'val5']}
-  // Loop through results
-  // Loop through result.values by idx
-  // if result.values[idx] === storedAnswer[idx]
   const vals = results.filter(result => {
     let includeResult = false;
     let count = 0;
