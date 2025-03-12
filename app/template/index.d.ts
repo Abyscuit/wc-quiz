@@ -4,6 +4,7 @@ export type Questions = {
     answer: string;
     value: string;
   }[];
+  prevAnswers?: string[];
 }[];
 
 export type Results = {
