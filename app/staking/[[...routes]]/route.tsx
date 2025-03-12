@@ -9,11 +9,13 @@ import {
   createIntro,
   createQuestionPage,
   createResultPage,
+  stakingLink,
+  storeAnswer,
 } from '@/app/template/quiz';
 import { Questions, Results } from '@/app/template';
 
 const title = 'Which crypto should you stake?';
-const app = createApp('/staking', title, 'https://staking.enkrypt.com');
+const app = createApp('/staking', title, stakingLink);
 
 const questions: Questions = [
   {
@@ -25,12 +27,12 @@ const questions: Questions = [
     ],
   },
   {
-    question: 'Would you stake on a centralized exchange, dApp or on a node?',
+    question: 'Would you stake on a centralized exchange or dApp?',
     answers: [
       { answer: 'Exchange', value: 'exchange' },
       { answer: 'dApp', value: 'dapp' },
-      { answer: 'Node', value: 'node' },
     ],
+    prevAnswers: ['delegate', 'pooling'],
   },
   {
     question: 'Do you prefer maintaining your own validator?',
@@ -39,6 +41,7 @@ const questions: Questions = [
       { answer: 'Yeah', value: 'yeah' },
       { answer: 'Why?', value: 'why' },
     ],
+    prevAnswers: ['self'],
   },
   {
     question:
@@ -61,60 +64,6 @@ const questions: Questions = [
 const enkryptDesc =
   'Start staking your {crypto} with our multichain browser wallet Enkrypt!';
 const crypto: Results = [
-  {
-    name: 'Polkadot',
-    desc: 'It can be a bit technical but Enkrypt makes it easy!',
-    enkryptDesc: enkryptDesc.replace('{crypto}', 'DOT'),
-    img: '/images/crypto/Polkadot.png',
-    values: [
-      'delegate',
-      'pooling',
-      'dapp',
-      'exchange',
-      'nah',
-      'why',
-      'apr',
-      'stability',
-      'idc',
-      'newest',
-    ],
-  },
-  {
-    name: 'Polygon',
-    desc: 'Native staking is pretty simple but only available on Ethereum.',
-    enkryptDesc: enkryptDesc.replace('{crypto}', 'POL'),
-    img: '/images/crypto/Polygon.png',
-    values: [
-      'delegate',
-      'self',
-      'dapp',
-      'node',
-      'nah',
-      'why',
-      'yeah',
-      'apr',
-      'idc',
-      'proven',
-    ],
-  },
-  {
-    name: 'Arthera',
-    desc: 'Really straightforward using the Arthera Dashboard.',
-    enkryptDesc: enkryptDesc.replace('{crypto}', 'AA'),
-    img: '/images/crypto/Arthera.png',
-    values: [
-      'delegate',
-      'self',
-      'dapp',
-      'node',
-      'nah',
-      'why',
-      'yeah',
-      'stability',
-      'idc',
-      'newest',
-    ],
-  },
   {
     name: 'Ethereum',
     desc: 'You have many options on staking ETH!',
@@ -142,11 +91,33 @@ const crypto: Results = [
     img: '/images/crypto/Solana.png',
     values: [
       'delegate',
+      'pooling',
       'dapp',
       'exchange',
       'nah',
       'why',
       'apr',
+      'idc',
+      'newest',
+    ],
+  },
+  {
+    name: 'Aptos',
+    desc: 'Aptos staking in now available on Enkrypt!',
+    enkryptDesc: enkryptDesc.replace('{crypto}', 'APT'),
+    img: '/images/crypto/Aptos.png',
+    values: [
+      'delegate',
+      'self',
+      'pooling',
+      'dapp',
+      'node',
+      'exchange',
+      'nah',
+      'why',
+      'yeah',
+      'apr',
+      'stability',
       'idc',
       'newest',
       'proven',
@@ -164,9 +135,24 @@ app.frame('/', c => {
 
 app.frame('/questions', c => {
   const { buttonValue } = c;
+  storeAnswer(storedAnswers, buttonValue, questionNum);
   questionNum++;
+  let currentQuestion = questions[questionNum];
+  while (
+    currentQuestion.prevAnswers &&
+    !storedAnswers.some(answer => currentQuestion.prevAnswers?.includes(answer))
+  ) {
+    questionNum++;
+    currentQuestion = questions[questionNum];
+  }
   return c.res(
-    createQuestionPage(buttonValue, questions, questionNum, storedAnswers)
+    createQuestionPage(
+      false,
+      buttonValue,
+      questions,
+      questionNum,
+      storedAnswers
+    )
   );
 });
 
@@ -177,7 +163,7 @@ app.frame('/result', c => {
       buttonValue,
       crypto,
       storedAnswers,
-      false,
+      { text: 'Stake on Enkrypt', url: stakingLink },
       'You should stake {name}!'
     )
   );
