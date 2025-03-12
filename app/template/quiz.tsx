@@ -8,6 +8,7 @@ import { Questions, Results } from '.';
 export const mewMobileLink = 'https://download.mewwallet.com/';
 export const enkryptLink =
   'https://chrome.google.com/webstore/detail/enkrypt/kkpllkodjeloidieedojogacfhpaihoh';
+export const stakingLink = 'https://staking.enkrypt.com';
 
 export function createApp(
   path: string,
@@ -50,18 +51,27 @@ export function createIntro(title: string, bgImage?: string) {
   };
 }
 
-export function createQuestionPage(
-  buttonValue: string | undefined,
-  questions: Questions,
-  questionNum: number,
+export function storeAnswer(
   storedAnswers: string[],
-  background?: string
+  buttonValue: string | undefined,
+  questionNum: number
 ) {
   if (buttonValue === 'reset') {
     storedAnswers.splice(0, storedAnswers.length);
     questionNum = 0;
   }
   if (buttonValue && buttonValue !== 'reset') storedAnswers.push(buttonValue);
+}
+
+export function createQuestionPage(
+  saveAnswer: boolean,
+  buttonValue: string | undefined,
+  questions: Questions,
+  questionNum: number,
+  storedAnswers: string[],
+  background?: string
+) {
+  if (saveAnswer) storeAnswer(storedAnswers, buttonValue, questionNum);
   const lastQuestion = questionNum === questions.length - 1;
   const linkAction = lastQuestion ? '/result' : '';
   const currentQuestion = questions[questionNum];
@@ -97,7 +107,7 @@ export function createResultPage(
   buttonValue: string | undefined,
   results: Results,
   storedAnswers: string[],
-  mewmobile?: boolean,
+  link: { text: string; url: string },
   resultString?: string
 ) {
   if (buttonValue && buttonValue !== 'reset') {
@@ -136,9 +146,7 @@ export function createResultPage(
       </div>
     ),
     intents: [
-      <Button.Link href={mewmobile ? mewMobileLink : enkryptLink}>
-        {mewmobile ? 'Download MEW Mobile' : 'Download Enkrypt'}
-      </Button.Link>,
+      <Button.Link href={link.url}>{link.text}</Button.Link>,
       <Button.Reset>Start Over</Button.Reset>,
     ],
   };

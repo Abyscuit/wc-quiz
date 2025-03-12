@@ -120,6 +120,7 @@ app.frame('/questions', c => {
   questionNum++;
   return c.res(
     createQuestionPage(
+      true,
       buttonValue,
       questions,
       questionNum,
@@ -131,7 +132,12 @@ app.frame('/questions', c => {
 
 app.frame('/result', c => {
   const { buttonValue } = c;
-  return c.res(createResultPage(buttonValue, results, storedAnswers, true));
+  return c.res(
+    createResultPage(buttonValue, results, storedAnswers, {
+      text: 'Download MEW Mobile',
+      url: mewMobileLink,
+    })
+  );
 });
 
 devtools(app, { serveStatic });
