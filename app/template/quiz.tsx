@@ -114,7 +114,7 @@ export function createResultPage(
     storedAnswers.push(buttonValue);
   }
   const idx = calculateResult(results, storedAnswers);
-  const result = typeof idx === 'number' ? results[idx] : idx[idx.length - 1];
+  const result = typeof idx === 'number' ? results[idx] : idx[0];
   return {
     image: (
       <div style={{ ...container, flexDirection: 'row' }}>
