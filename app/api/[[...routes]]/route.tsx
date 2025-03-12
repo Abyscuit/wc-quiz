@@ -9,11 +9,12 @@ import {
   createIntro,
   createMultiResultPage,
   createQuestionPage,
+  enkryptLink,
 } from '@/app/template/quiz';
 import { Questions, Results } from '@/app/template';
 
 const title = 'What crypto conference should you go to in 2025?';
-const app = createApp('/api', title, '/redirect');
+const app = createApp('/api', title, enkryptLink);
 
 const questions: Questions = [
   {

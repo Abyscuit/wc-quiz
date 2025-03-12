@@ -9,11 +9,12 @@ import {
   createIntro,
   createQuestionPage,
   createResultPage,
+  mewMobileLink,
 } from '@/app/template/quiz';
 import { Questions, Results } from '@/app/template';
 
 const title = 'Which Season 9 MEW Universe NFT are you?';
-const app = createApp('/memecoin', title, '/mew-download');
+const app = createApp('/memecoin', title, mewMobileLink);
 
 const questions: Questions = [
   {

@@ -13,7 +13,7 @@ import {
 import { Questions, Results } from '@/app/template';
 
 const title = 'Which crypto should you stake?';
-const app = createApp('/staking', title, '/redirect');
+const app = createApp('/staking', title, 'https://staking.enkrypt.com');
 
 const questions: Questions = [
   {
