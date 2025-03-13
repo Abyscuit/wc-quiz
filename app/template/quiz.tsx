@@ -3,7 +3,7 @@
 import { Button, Frog } from 'frog';
 import { bg, container, fontStyle, list } from '@/app/styles/styles';
 import { Roboto } from '@/app/styles/fonts';
-import { Questions, Results } from '.';
+import { Link, Questions, Results } from '.';
 
 export const mewMobileLink = 'https://download.mewwallet.com/';
 export const enkryptLink =
@@ -107,7 +107,7 @@ export function createResultPage(
   buttonValue: string | undefined,
   results: Results,
   storedAnswers: string[],
-  link: { text: string; url: string },
+  link: Link,
   resultString?: string
 ) {
   if (buttonValue && buttonValue !== 'reset') {
