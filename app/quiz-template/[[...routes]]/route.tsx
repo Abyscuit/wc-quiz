@@ -9,6 +9,7 @@ import {
   createIntro,
   createQuestionPage,
   createResultPage,
+  enkryptLink,
 } from '@/app/template/quiz';
 import { Questions, Results } from '@/app/template';
 
@@ -108,13 +109,18 @@ app.frame('/questions', c => {
   const { buttonValue } = c;
   questionNum++;
   return c.res(
-    createQuestionPage(buttonValue, questions, questionNum, storedAnswers)
+    createQuestionPage(true, buttonValue, questions, questionNum, storedAnswers)
   );
 });
 
 app.frame('/result', c => {
   const { buttonValue } = c;
-  return c.res(createResultPage(buttonValue, results, storedAnswers));
+  return c.res(
+    createResultPage(buttonValue, results, storedAnswers, {
+      text: 'Download Enkrypt',
+      url: enkryptLink,
+    })
+  );
 });
 
 devtools(app, { serveStatic });
