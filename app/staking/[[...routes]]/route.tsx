@@ -13,6 +13,9 @@ import {
   storeAnswer,
 } from '@/app/template/quiz';
 import { Questions, Results } from '@/app/template';
+import { Button } from 'frog';
+import { bg, container, fontStyle } from '@/app/styles/styles';
+import { redirect } from 'next/navigation';
 
 const title = 'What do you know about SOL staking?';
 const app = createApp('/staking', title, stakingLink);
@@ -77,7 +80,6 @@ app.frame('/', c => {
 
 app.frame('/questions', c => {
   const { buttonValue } = c;
-  storeAnswer(storedAnswers, buttonValue, questionNum);
   questionNum++;
   let currentQuestion = questions[questionNum];
   while (
@@ -93,13 +95,72 @@ app.frame('/questions', c => {
       buttonValue,
       questions,
       questionNum,
-      storedAnswers
+      storedAnswers,
+      undefined,
+      '/check-answer'
     )
   );
 });
 
+app.frame('/check-answer', c => {
+  const { buttonValue, status } = c;
+  if (status !== 'response') redirect('/');
+  storeAnswer(storedAnswers, buttonValue, questionNum);
+
+  const correct = buttonValue === '1';
+  const response = correct
+    ? { text: 'Correct!', color: 'lightgreen' }
+    : { text: 'Incorrect!', color: 'red' };
+
+  return c.res({
+    image: (
+      <div style={{ ...container, flexDirection: 'row' }}>
+        <img
+          alt='background'
+          src='/background.png'
+          width={'100%'}
+          height={'100%'}
+          style={bg}
+        />
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignText: 'center',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '60%',
+          }}
+        >
+          <div
+            style={{
+              ...fontStyle,
+              fontSize: 75,
+              color: response.color,
+            }}
+          >
+            {`${response.text}`}
+          </div>
+        </div>
+      </div>
+    ),
+    intents: [
+      <Button action='/questions'>Next</Button>,
+      <Button.Reset>Start Over</Button.Reset>,
+    ],
+  });
+});
+
 app.frame('/result', c => {
   const { buttonValue } = c;
+  const text = [
+    'You are joking right?',
+    'You need to study!',
+    'Wow you gotta study more!',
+    'Gotta do better!',
+    'Oof just 1 off!',
+    `You're based!`,
+  ];
   let score = parseInt(buttonValue ?? '0');
   for (const element of storedAnswers) {
     score += parseInt(element);
@@ -111,7 +172,7 @@ app.frame('/result', c => {
       crypto,
       storedAnswers,
       { text: 'Stake on Enkrypt', url: stakingLink },
-      `You scored a ${score}/5!`
+      `${score}/5 - ${text[score]}`
     )
   );
 });
