@@ -69,11 +69,12 @@ export function createQuestionPage(
   questions: Questions,
   questionNum: number,
   storedAnswers: string[],
-  background?: string
+  background?: string,
+  actionLink?: string
 ) {
   if (saveAnswer) storeAnswer(storedAnswers, buttonValue, questionNum);
   const lastQuestion = questionNum === questions.length - 1;
-  const linkAction = lastQuestion ? '/result' : '';
+  const linkAction = lastQuestion ? '/result' : actionLink;
   const currentQuestion = questions[questionNum];
   return {
     image: (
