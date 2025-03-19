@@ -1,10 +1,13 @@
 export type Questions = {
   question: string;
-  answers: {
-    answer: string;
-    value: string;
-  }[];
+  answers: Answer[];
+  prevAnswers?: string[];
 }[];
+
+type Answer = {
+  answer: string;
+  value: string;
+};
 
 export type Results = {
   name: string;
@@ -13,3 +16,8 @@ export type Results = {
   img?: string;
   values?: string[];
 }[];
+
+export type Link = {
+  text: string;
+  url: string;
+};

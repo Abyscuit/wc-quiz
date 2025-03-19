@@ -9,51 +9,52 @@ import {
   createIntro,
   createQuestionPage,
   createResultPage,
+  stakingLink,
+  storeAnswer,
 } from '@/app/template/quiz';
 import { Questions, Results } from '@/app/template';
+import { Button } from 'frog';
+import { bg, container, fontStyle } from '@/app/styles/styles';
+import { redirect } from 'next/navigation';
 
-const title = 'Which crypto should you stake?';
-const app = createApp('/staking', title, '/redirect');
+const title = 'What do you know about SOL staking?';
+const app = createApp('/staking', title, stakingLink);
 
 const questions: Questions = [
   {
-    question: 'Do you prefer delegating, pooling your stake, or self staking?',
+    question: 'Who can stake?',
     answers: [
-      { answer: 'Delegating', value: 'delegate' },
-      { answer: 'Pooling', value: 'pooling' },
-      { answer: 'Self', value: 'self' },
+      { answer: 'Approved users', value: '0' },
+      { answer: 'Anyone with SOL', value: '1' },
     ],
   },
   {
-    question: 'Would you stake on a centralized exchange, dApp or on a node?',
+    question: 'Are there risks to staking?',
     answers: [
-      { answer: 'Exchange', value: 'exchange' },
-      { answer: 'dApp', value: 'dapp' },
-      { answer: 'Node', value: 'node' },
+      { answer: 'No', value: '0' },
+      { answer: 'Yes', value: '1' },
     ],
   },
   {
-    question: 'Do you prefer maintaining your own validator?',
+    question: 'Where are staking rewards issued?',
     answers: [
-      { answer: 'Nah', value: 'nah' },
-      { answer: 'Yeah', value: 'yeah' },
-      { answer: 'Why?', value: 'why' },
+      { answer: 'Redelegated', value: '1' },
+      { answer: 'Into your wallet', value: '0' },
     ],
   },
   {
     question:
-      'Which would you choose high APR but volatile blockchain or lower APR and stable blockchain?',
+      'True or False: Delegating your tokens gives the validator control of your tokens.',
     answers: [
-      { answer: 'High APR', value: 'apr' },
-      { answer: 'Stablility', value: 'stability' },
+      { answer: 'False', value: '1' },
+      { answer: 'True', value: '0' },
     ],
   },
   {
-    question: 'Would you want newest tech or older but proven tech?',
+    question: 'How often are rewards issued?',
     answers: [
-      { answer: 'idc', value: 'idc' },
-      { answer: 'Proven', value: 'proven' },
-      { answer: 'Newest', value: 'newest' },
+      { answer: 'Every block', value: '0' },
+      { answer: 'Every epoch', value: '1' },
     ],
   },
 ];
@@ -62,95 +63,10 @@ const enkryptDesc =
   'Start staking your {crypto} with our multichain browser wallet Enkrypt!';
 const crypto: Results = [
   {
-    name: 'Polkadot',
-    desc: 'It can be a bit technical but Enkrypt makes it easy!',
-    enkryptDesc: enkryptDesc.replace('{crypto}', 'DOT'),
-    img: '/images/crypto/Polkadot.png',
-    values: [
-      'delegate',
-      'pooling',
-      'dapp',
-      'exchange',
-      'nah',
-      'why',
-      'apr',
-      'stability',
-      'idc',
-      'newest',
-    ],
-  },
-  {
-    name: 'Polygon',
-    desc: 'Native staking is pretty simple but only available on Ethereum.',
-    enkryptDesc: enkryptDesc.replace('{crypto}', 'POL'),
-    img: '/images/crypto/Polygon.png',
-    values: [
-      'delegate',
-      'self',
-      'dapp',
-      'node',
-      'nah',
-      'why',
-      'yeah',
-      'apr',
-      'idc',
-      'proven',
-    ],
-  },
-  {
-    name: 'Arthera',
-    desc: 'Really straightforward using the Arthera Dashboard.',
-    enkryptDesc: enkryptDesc.replace('{crypto}', 'AA'),
-    img: '/images/crypto/Arthera.png',
-    values: [
-      'delegate',
-      'self',
-      'dapp',
-      'node',
-      'nah',
-      'why',
-      'yeah',
-      'stability',
-      'idc',
-      'newest',
-    ],
-  },
-  {
-    name: 'Ethereum',
-    desc: 'You have many options on staking ETH!',
-    enkryptDesc: enkryptDesc.replace('{crypto}', 'ETH'),
-    img: '/images/crypto/Ethereum.png',
-    values: [
-      'delegate',
-      'self',
-      'pooling',
-      'dapp',
-      'node',
-      'exchange',
-      'nah',
-      'why',
-      'yeah',
-      'stability',
-      'idc',
-      'proven',
-    ],
-  },
-  {
     name: 'Solana',
-    desc: 'Solana staking in now available on Enkrypt!',
+    desc: 'Solana staking is now available on Enkrypt!',
     enkryptDesc: enkryptDesc.replace('{crypto}', 'SOL'),
     img: '/images/crypto/Solana.png',
-    values: [
-      'delegate',
-      'dapp',
-      'exchange',
-      'nah',
-      'why',
-      'apr',
-      'idc',
-      'newest',
-      'proven',
-    ],
   },
 ];
 
@@ -165,20 +81,98 @@ app.frame('/', c => {
 app.frame('/questions', c => {
   const { buttonValue } = c;
   questionNum++;
+  let currentQuestion = questions[questionNum];
+  while (
+    currentQuestion.prevAnswers &&
+    !storedAnswers.some(answer => currentQuestion.prevAnswers?.includes(answer))
+  ) {
+    questionNum++;
+    currentQuestion = questions[questionNum];
+  }
   return c.res(
-    createQuestionPage(buttonValue, questions, questionNum, storedAnswers)
+    createQuestionPage(
+      false,
+      buttonValue,
+      questions,
+      questionNum,
+      storedAnswers,
+      undefined,
+      '/check-answer'
+    )
   );
+});
+
+app.frame('/check-answer', c => {
+  const { buttonValue, status } = c;
+  if (status !== 'response') redirect('/');
+  storeAnswer(storedAnswers, buttonValue, questionNum);
+
+  const correct = buttonValue === '1';
+  const response = correct
+    ? { text: 'Correct!', color: 'lightgreen' }
+    : { text: 'Incorrect!', color: 'red' };
+
+  return c.res({
+    image: (
+      <div style={{ ...container, flexDirection: 'row' }}>
+        <img
+          alt='background'
+          src='/background.png'
+          width={'100%'}
+          height={'100%'}
+          style={bg}
+        />
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignText: 'center',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '60%',
+          }}
+        >
+          <div
+            style={{
+              ...fontStyle,
+              fontSize: 75,
+              color: response.color,
+            }}
+          >
+            {`${response.text}`}
+          </div>
+        </div>
+      </div>
+    ),
+    intents: [
+      <Button action='/questions'>Next</Button>,
+      <Button.Reset>Start Over</Button.Reset>,
+    ],
+  });
 });
 
 app.frame('/result', c => {
   const { buttonValue } = c;
+  const text = [
+    'You are joking right?',
+    'You need to study!',
+    'Wow you gotta study more!',
+    'Gotta do better!',
+    'Oof just 1 off!',
+    `You're based!`,
+  ];
+  let score = parseInt(buttonValue ?? '0');
+  for (const element of storedAnswers) {
+    score += parseInt(element);
+  }
+
   return c.res(
     createResultPage(
       buttonValue,
       crypto,
       storedAnswers,
-      false,
-      'You should stake {name}!'
+      { text: 'Stake on Enkrypt', url: stakingLink },
+      `${score}/5 - ${text[score]}`
     )
   );
 });
