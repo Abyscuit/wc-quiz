@@ -14,49 +14,44 @@ import {
 } from '@/app/template/quiz';
 import { Questions, Results } from '@/app/template';
 
-const title = 'Which crypto should you stake?';
+const title = 'What do you know about SOL staking?';
 const app = createApp('/staking', title, stakingLink);
 
 const questions: Questions = [
   {
-    question: 'Do you prefer delegating, pooling your stake, or self staking?',
+    question: 'Who can stake?',
     answers: [
-      { answer: 'Delegating', value: 'delegate' },
-      { answer: 'Pooling', value: 'pooling' },
-      { answer: 'Self', value: 'self' },
+      { answer: 'Approved users', value: '0' },
+      { answer: 'Anyone with SOL', value: '1' },
     ],
   },
   {
-    question: 'Would you stake on a centralized exchange or dApp?',
+    question: 'Are there risks to staking?',
     answers: [
-      { answer: 'Exchange', value: 'exchange' },
-      { answer: 'dApp', value: 'dapp' },
+      { answer: 'No', value: '0' },
+      { answer: 'Yes', value: '1' },
     ],
-    prevAnswers: ['delegate', 'pooling'],
   },
   {
-    question: 'Do you prefer maintaining your own validator?',
+    question: 'Where are staking rewards issued?',
     answers: [
-      { answer: 'Nah', value: 'nah' },
-      { answer: 'Yeah', value: 'yeah' },
-      { answer: 'Why?', value: 'why' },
+      { answer: 'Redelegated', value: '1' },
+      { answer: 'Into your wallet', value: '0' },
     ],
-    prevAnswers: ['self'],
   },
   {
     question:
-      'Which would you choose high APR but volatile blockchain or lower APR and stable blockchain?',
+      'True or False: Delegating your tokens gives the validator control of your tokens.',
     answers: [
-      { answer: 'High APR', value: 'apr' },
-      { answer: 'Stablility', value: 'stability' },
+      { answer: 'False', value: '1' },
+      { answer: 'True', value: '0' },
     ],
   },
   {
-    question: 'Would you want newest tech or older but proven tech?',
+    question: 'How often are rewards issued?',
     answers: [
-      { answer: 'idc', value: 'idc' },
-      { answer: 'Proven', value: 'proven' },
-      { answer: 'Newest', value: 'newest' },
+      { answer: 'Every block', value: '0' },
+      { answer: 'Every epoch', value: '1' },
     ],
   },
 ];
@@ -65,63 +60,10 @@ const enkryptDesc =
   'Start staking your {crypto} with our multichain browser wallet Enkrypt!';
 const crypto: Results = [
   {
-    name: 'Ethereum',
-    desc: 'You have many options on staking ETH!',
-    enkryptDesc: enkryptDesc.replace('{crypto}', 'ETH'),
-    img: '/images/crypto/Ethereum.png',
-    values: [
-      'delegate',
-      'self',
-      'pooling',
-      'dapp',
-      'node',
-      'exchange',
-      'nah',
-      'why',
-      'yeah',
-      'stability',
-      'idc',
-      'proven',
-    ],
-  },
-  {
     name: 'Solana',
-    desc: 'Solana staking in now available on Enkrypt!',
+    desc: 'Solana staking is now available on Enkrypt!',
     enkryptDesc: enkryptDesc.replace('{crypto}', 'SOL'),
     img: '/images/crypto/Solana.png',
-    values: [
-      'delegate',
-      'pooling',
-      'dapp',
-      'exchange',
-      'nah',
-      'why',
-      'apr',
-      'idc',
-      'newest',
-    ],
-  },
-  {
-    name: 'Aptos',
-    desc: 'Aptos staking in now available on Enkrypt!',
-    enkryptDesc: enkryptDesc.replace('{crypto}', 'APT'),
-    img: '/images/crypto/Aptos.png',
-    values: [
-      'delegate',
-      'self',
-      'pooling',
-      'dapp',
-      'node',
-      'exchange',
-      'nah',
-      'why',
-      'yeah',
-      'apr',
-      'stability',
-      'idc',
-      'newest',
-      'proven',
-    ],
   },
 ];
 
@@ -158,13 +100,18 @@ app.frame('/questions', c => {
 
 app.frame('/result', c => {
   const { buttonValue } = c;
+  let score = parseInt(buttonValue ?? '0');
+  for (const element of storedAnswers) {
+    score += parseInt(element);
+  }
+
   return c.res(
     createResultPage(
       buttonValue,
       crypto,
       storedAnswers,
       { text: 'Stake on Enkrypt', url: stakingLink },
-      'You should stake {name}!'
+      `You scored a ${score}/5!`
     )
   );
 });
