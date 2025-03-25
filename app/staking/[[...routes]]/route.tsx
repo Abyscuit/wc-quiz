@@ -17,7 +17,7 @@ import { Button } from 'frog';
 import { bg, container, fontStyle } from '@/app/styles/styles';
 import { redirect } from 'next/navigation';
 
-const title = 'What do you know about SOL staking?';
+const title = 'How much do you know about SOL staking?';
 const app = createApp('/staking', title, stakingLink);
 
 const questions: Questions = [
@@ -75,10 +75,22 @@ const answerText = [
     'Good news - absolutely anyone who has SOL can stake and receive rewards!',
     "That's right! All you need to get started is some SOL and a wallet.",
   ],
-  ['', ''], // Are there risks?
-  ['', ''], // where rewards issued?
-  ['', ''], // validator controls stake?
-  ['', ''], // How often rewards issued?
+  [
+    "Remember that any DeFi operation involves inherent risks. It's always a good idea to do your research.",
+    'While any DeFi operation involves risk, staking is one of the simplest and safest ways to earn rewards.',
+  ],
+  [
+    'SOL rewards are automatically redelegated, but you can request to withdraw your stake and rewards into your wallet at any time.',
+    'Correct, SOL rewards are automatically put back into staking so that you are earning even more rewards over time.',
+  ],
+  [
+    'Even when you delegate SOL for staking, you remain in full control of your tokens and can unstake at any time.',
+    'With a self-custodial wallet and decentralized staking, you always retain control of your tokens.',
+  ],
+  [
+    "While some proof of stake blockchains issue rewards at every block, Solana uses a longer time period called an 'epoch' to organize staking.",
+    'Yes! Epochs, lasting 2-3 days on average, are the most important time frame for SOL staking.',
+  ],
 ];
 
 const resultText = [
@@ -133,6 +145,9 @@ app.frame('/check-answer', c => {
 
   const idx = parseInt(buttonValue ?? '0');
 
+  const actionLink =
+    questionNum === questions.length - 1 ? '/result' : '/questions';
+
   return c.res({
     image: (
       <div style={{ ...container, flexDirection: 'row' }}>
@@ -150,7 +165,7 @@ app.frame('/check-answer', c => {
             alignText: 'center',
             alignItems: 'center',
             justifyContent: 'center',
-            width: '80%',
+            width: '100%',
           }}
         >
           <div
@@ -165,7 +180,7 @@ app.frame('/check-answer', c => {
       </div>
     ),
     intents: [
-      <Button action='/questions'>Next</Button>,
+      <Button action={actionLink}>Next</Button>,
       <Button.Reset>Start Over</Button.Reset>,
     ],
   });
@@ -173,7 +188,7 @@ app.frame('/check-answer', c => {
 
 app.frame('/result', c => {
   const { buttonValue } = c;
-  let score = parseInt(buttonValue ?? '0');
+  let score = 0;
   for (const element of storedAnswers) {
     score += parseInt(element);
   }
