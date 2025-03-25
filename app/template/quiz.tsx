@@ -74,7 +74,7 @@ export function createQuestionPage(
 ) {
   if (saveAnswer) storeAnswer(storedAnswers, buttonValue, questionNum);
   const lastQuestion = questionNum === questions.length - 1;
-  const linkAction = lastQuestion ? '/result' : actionLink;
+  const linkAction = lastQuestion ? '/result' : '';
   const currentQuestion = questions[questionNum];
   return {
     image: (
@@ -94,7 +94,7 @@ export function createQuestionPage(
     intents: [
       ...currentQuestion.answers.map(answer => {
         return (
-          <Button value={answer.value} action={linkAction}>
+          <Button value={answer.value} action={actionLink ?? linkAction}>
             {answer.answer}
           </Button>
         );
