@@ -70,6 +70,26 @@ const crypto: Results = [
   },
 ];
 
+const answerText = [
+  [
+    'Good news - absolutely anyone who has SOL can stake and receive rewards!',
+    "That's right! All you need to get started is some SOL and a wallet.",
+  ],
+  ['', ''], // Are there risks?
+  ['', ''], // where rewards issued?
+  ['', ''], // validator controls stake?
+  ['', ''], // How often rewards issued?
+];
+
+const resultText = [
+  'You are joking right?',
+  'You need to study!',
+  'Wow you gotta study more!',
+  'Gotta do better!',
+  'Oof just 1 off!',
+  `You're based!`,
+];
+
 const storedAnswers: string[] = [];
 let questionNum = -1;
 
@@ -80,6 +100,7 @@ app.frame('/', c => {
 
 app.frame('/questions', c => {
   const { buttonValue } = c;
+  if (questionNum === -1) storedAnswers.splice(0, storedAnswers.length);
   questionNum++;
   let currentQuestion = questions[questionNum];
   while (
@@ -108,9 +129,9 @@ app.frame('/check-answer', c => {
   storeAnswer(storedAnswers, buttonValue, questionNum);
 
   const correct = buttonValue === '1';
-  const response = correct
-    ? { text: 'Correct!', color: 'lightgreen' }
-    : { text: 'Incorrect!', color: 'red' };
+  const response = correct ? { text: '✅' } : { text: '❌' };
+
+  const idx = parseInt(buttonValue ?? '0');
 
   return c.res({
     image: (
@@ -129,17 +150,16 @@ app.frame('/check-answer', c => {
             alignText: 'center',
             alignItems: 'center',
             justifyContent: 'center',
-            width: '60%',
+            width: '80%',
           }}
         >
           <div
             style={{
               ...fontStyle,
-              fontSize: 75,
-              color: response.color,
+              fontSize: 60,
             }}
           >
-            {`${response.text}`}
+            {`${response.text}\n${answerText[questionNum][idx]}`}
           </div>
         </div>
       </div>
@@ -153,18 +173,11 @@ app.frame('/check-answer', c => {
 
 app.frame('/result', c => {
   const { buttonValue } = c;
-  const text = [
-    'You are joking right?',
-    'You need to study!',
-    'Wow you gotta study more!',
-    'Gotta do better!',
-    'Oof just 1 off!',
-    `You're based!`,
-  ];
   let score = parseInt(buttonValue ?? '0');
   for (const element of storedAnswers) {
     score += parseInt(element);
   }
+  if (score > questions.length) score = questions.length;
 
   return c.res(
     createResultPage(
@@ -172,7 +185,7 @@ app.frame('/result', c => {
       crypto,
       storedAnswers,
       { text: 'Stake on Enkrypt', url: stakingLink },
-      `${score}/5 - ${text[score]}`
+      `${score}/5 - ${resultText[score]}`
     )
   );
 });
