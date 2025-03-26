@@ -9,11 +9,12 @@ import {
   createIntro,
   createQuestionPage,
   createResultPage,
+  mewMobileLink,
 } from '@/app/template/quiz';
 import { Questions, Results } from '@/app/template';
 
 const title = 'Which Season 9 MEW Universe NFT are you?';
-const app = createApp('/memecoin', title, '/mew-download');
+const app = createApp('/memecoin', title, mewMobileLink);
 
 const questions: Questions = [
   {
@@ -119,6 +120,7 @@ app.frame('/questions', c => {
   questionNum++;
   return c.res(
     createQuestionPage(
+      true,
       buttonValue,
       questions,
       questionNum,
@@ -130,7 +132,12 @@ app.frame('/questions', c => {
 
 app.frame('/result', c => {
   const { buttonValue } = c;
-  return c.res(createResultPage(buttonValue, results, storedAnswers, true));
+  return c.res(
+    createResultPage(buttonValue, results, storedAnswers, {
+      text: 'Download MEW Mobile',
+      url: mewMobileLink,
+    })
+  );
 });
 
 devtools(app, { serveStatic });

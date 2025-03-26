@@ -3,11 +3,12 @@
 import { Button, Frog } from 'frog';
 import { bg, container, fontStyle, list } from '@/app/styles/styles';
 import { Roboto } from '@/app/styles/fonts';
-import { Questions, Results } from '.';
+import { Link, Questions, Results } from '.';
 
 export const mewMobileLink = 'https://download.mewwallet.com/';
 export const enkryptLink =
   'https://chrome.google.com/webstore/detail/enkrypt/kkpllkodjeloidieedojogacfhpaihoh';
+export const stakingLink = 'https://staking.enkrypt.com';
 
 export function createApp(
   path: string,
@@ -50,18 +51,28 @@ export function createIntro(title: string, bgImage?: string) {
   };
 }
 
-export function createQuestionPage(
-  buttonValue: string | undefined,
-  questions: Questions,
-  questionNum: number,
+export function storeAnswer(
   storedAnswers: string[],
-  background?: string
+  buttonValue: string | undefined,
+  questionNum: number
 ) {
   if (buttonValue === 'reset') {
     storedAnswers.splice(0, storedAnswers.length);
     questionNum = 0;
   }
   if (buttonValue && buttonValue !== 'reset') storedAnswers.push(buttonValue);
+}
+
+export function createQuestionPage(
+  saveAnswer: boolean,
+  buttonValue: string | undefined,
+  questions: Questions,
+  questionNum: number,
+  storedAnswers: string[],
+  background?: string,
+  actionLink?: string
+) {
+  if (saveAnswer) storeAnswer(storedAnswers, buttonValue, questionNum);
   const lastQuestion = questionNum === questions.length - 1;
   const linkAction = lastQuestion ? '/result' : '';
   const currentQuestion = questions[questionNum];
@@ -83,7 +94,7 @@ export function createQuestionPage(
     intents: [
       ...currentQuestion.answers.map(answer => {
         return (
-          <Button value={answer.value} action={linkAction}>
+          <Button value={answer.value} action={actionLink ?? linkAction}>
             {answer.answer}
           </Button>
         );
@@ -97,14 +108,14 @@ export function createResultPage(
   buttonValue: string | undefined,
   results: Results,
   storedAnswers: string[],
-  mewmobile?: boolean,
+  link: Link,
   resultString?: string
 ) {
   if (buttonValue && buttonValue !== 'reset') {
     storedAnswers.push(buttonValue);
   }
   const idx = calculateResult(results, storedAnswers);
-  const result = typeof idx === 'number' ? results[idx] : idx[idx.length - 1];
+  const result = typeof idx === 'number' ? results[idx] : idx[0];
   return {
     image: (
       <div style={{ ...container, flexDirection: 'row' }}>
@@ -136,9 +147,7 @@ export function createResultPage(
       </div>
     ),
     intents: [
-      <Button.Link href={mewmobile ? mewMobileLink : enkryptLink}>
-        {mewmobile ? 'Download MEW Mobile' : 'Download Enkrypt'}
-      </Button.Link>,
+      <Button.Link href={link.url}>{link.text}</Button.Link>,
       <Button.Reset>Start Over</Button.Reset>,
     ],
   };
